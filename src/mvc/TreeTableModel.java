@@ -33,10 +33,16 @@ public class TreeTableModel {
 		nodes.add(new Node<Car>(new Car(6,"Mazda",11164)));
 		nodes.add(new Node<Car>(new Car(1,"Toyota",7777.4)));		
 		nodes.add(new Node<Car>(new Car(3,"Suzuki",421)));
-		nodes.add(new Node<Car>(new Car(0,"Seat",866.4)));		
-				
+		nodes.add(new Node<Car>(new Car(0,"Seat",866.4)));	
+		
+		nodes.get(0).loadValuesToDisplayFromAnnotation();
+		
 		nodes.get(0).checkIfNodeContainsValuesToDisplay();
 		Settings.clearVariablesToDisplay();
+		
+		for(int i = 0 ; i < nodes.size() ; i++) {
+			nodes.get(i).loadValuesToDisplay();
+		}
 		
 		rows = nodes.size();
 		columns = Settings.getVariablesToDisplaySize();
