@@ -4,22 +4,19 @@ import java.awt.BorderLayout;
 
 import javax.swing.JFrame;
 
-import mvc.Controller;
-import mvc.Model;
-import mvc.View;
+import mvc.TreeTable;
 
 public class Main {
 	Settings s = new Settings();
 	XMLReader x = new XMLReader();
-	View view = new View();
-	Model model = new Model();	
 	
-	Controller controller = new Controller(view, model);
+	TreeTable treeTable = new TreeTable();
 	
 	public Main(){			
 		JFrame frame = new JFrame("ProjektPZ");	
 	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    frame.add(view, BorderLayout.CENTER);
+	    treeTable.addData();
+	    frame.add(treeTable, BorderLayout.CENTER);
 	    frame.setSize(300, 150);
 	    frame.pack();
 	    frame.setVisible(true);

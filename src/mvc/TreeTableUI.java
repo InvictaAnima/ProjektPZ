@@ -2,25 +2,78 @@ package mvc;
 
 
 import java.awt.Component;
+import java.awt.FlowLayout;
+import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+
 import javax.swing.DefaultCellEditor;
 import javax.swing.JCheckBox;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.plaf.ComponentUI;
 import javax.swing.table.TableCellRenderer;
 
-public class View extends JScrollPane {
-
-	private static final long serialVersionUID = 1L;
+public class TreeTableUI extends ComponentUI{
+	public static final String UI_CLASS_ID = "TreeTableUI";
 
 	JTable table;
+	TreeTable treeTable;
+	private JScrollPane scrollPane;
+	private ChangeListener changeListener;
+	
+	public static ComponentUI createUI(JComponent c) {
+		return new TreeTableUI();
+	}
+	
+	public void installUI(JComponent c) {
+		this.treeTable = (TreeTable) c;
+		installComponents();
+		installListeners();
+		c.setLayout(new FlowLayout());
+	}
 
-	public View() {
+	public void uninstallUI(JComponent c) {
+		c.setLayout(null);
+		uninstallListeners();
+		uninstallComponents();
+		this.treeTable = null;
+	}
+	
+	protected void installComponents(){
+		scrollPane = new JScrollPane();
+		this.treeTable.add(scrollPane);
+	}
+	
+	protected void installListeners(){
+		changeListener = new ChangeListener(){
 
+			@Override
+			public void stateChanged(ChangeEvent arg0) {
+				TreeTableModel model = (TreeTableModel) arg0.getSource();
+				setData(model.getRowData(), model.getColumnNames());
+				treeTable.repaint();
+			}
+		};
+		this.treeTable.getModel().addChangeListener(changeListener);
+	}
+	
+	protected void uninstallComponents(){
+		scrollPane = null;
+	}
+	
+	protected void uninstallListeners(){
+		this.treeTable.getModel().removeChangeListener(changeListener);
+		changeListener = null;
+	}
+	
+	public void paint(Graphics g, JComponent c) {
+		super.paint(g, c);
 	}
 
 	public void setData(Object[][] rowData, Object[] columnNames) {
@@ -28,7 +81,7 @@ public class View extends JScrollPane {
 		table.getColumnModel().getColumn(0).setCellRenderer(new ClientsTableButtonRenderer());
 		table.getColumnModel().getColumn(0).setCellEditor(new ClientsTableRenderer(new JCheckBox()));
 		
-		this.setViewportView(table);
+		scrollPane.setViewportView(table);
 	}
 }
 

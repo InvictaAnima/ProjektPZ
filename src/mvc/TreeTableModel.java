@@ -2,20 +2,28 @@ package mvc;
 
 import java.util.ArrayList;
 
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.EventListenerList;
+
 import checkbox_treetable.Car;
 import checkbox_treetable.Node;
 import checkbox_treetable.Settings;
 
-public class Model {
+public class TreeTableModel {
 	private Object[][] rowData;
 	private Object columnNames[];
+	private EventListenerList eventListenerList;
 	
-	ArrayList <Node> nodes;
+	ArrayList<Node> nodes;
 	
-	public Model(){
+	public TreeTableModel(){
+		eventListenerList = new EventListenerList();
+	}
+	
+	public void addData(){
 		int columns;
 		int rows;
-		
 		nodes = new ArrayList<>();
 		nodes.add(new Node<Car>(new Car(5,"Audi",42.4)));		
 		nodes.add(new Node<Car>(new Car(9,"Fiat",42224)));
@@ -52,8 +60,9 @@ public class Model {
 		
 		columnNames = tmp2;
 		
+		fireChange();
+		
 	}
-	
 //	public void fillWithDataFromList(){
 //		List<String> tokens = new ArrayList<String>();
 //		rowData = new Object[10][3];
@@ -66,6 +75,22 @@ public class Model {
 //			rowData[i%10][i%3] = tokens.get(i);
 //		}
 //	}
+	
+	public void addChangeListener(ChangeListener listener){
+		eventListenerList.add(ChangeListener.class, listener);
+	}
+	
+	public void removeChangeListener(ChangeListener listener) {
+    	if(eventListenerList != null)
+    		eventListenerList.remove(ChangeListener.class, listener);
+	}
+	
+	public void fireChange(){
+    	ChangeListener[] listenerList = eventListenerList.getListeners(ChangeListener.class);
+    	
+    	for(int i = listenerList.length-1; i >= 0; --i)
+        	listenerList[i].stateChanged(new ChangeEvent(this));
+	}
 
 	public Object[][] getRowData() {
 		return rowData;
