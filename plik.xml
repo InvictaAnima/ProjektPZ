@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<toDisplay>	
+	<column>
+		size
+	</column>	
+	
+	<column>
+		mark
+	</column>
+	
+	<column>
+		maxSpeed
+	</column>
+</toDisplay>
+	
