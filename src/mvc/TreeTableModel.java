@@ -1,5 +1,6 @@
 package mvc;
 
+import java.awt.Checkbox;
 import java.util.ArrayList;
 
 import javax.swing.event.ChangeEvent;
@@ -7,6 +8,7 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
 
 import checkbox_treetable.Car;
+import checkbox_treetable.CheckBox;
 import checkbox_treetable.Node;
 import checkbox_treetable.Settings;
 
@@ -46,6 +48,7 @@ public class TreeTableModel {
 			tmpNode = nodes.get(i);
 			
 			for(int j=0 ; j<tmpNode.getDataToDisplaySize();j++){
+				tmp[i][0] = new CheckBox(0);
 				tmp[i][j+1] = tmpNode.getData(j);
 			}
 		}
@@ -88,8 +91,9 @@ public class TreeTableModel {
 	public void fireChange(){
     	ChangeListener[] listenerList = eventListenerList.getListeners(ChangeListener.class);
     	
-    	for(int i = listenerList.length-1; i >= 0; --i)
+    	for(int i = listenerList.length-1; i >= 0; --i){
         	listenerList[i].stateChanged(new ChangeEvent(this));
+    	}
 	}
 
 	public Object[][] getRowData() {
