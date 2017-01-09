@@ -1,9 +1,11 @@
 package checkbox_treetable;
 
 public class Car {
-	public int size;
-	public String mark;
-	public double maxSpeed;
+	@ToDisplay
+	private int size;
+	private String mark;
+	@ToDisplay
+	private double maxSpeed;
 
 	public Car(int size, String mark, double maxSpeed) {
 		super();		
