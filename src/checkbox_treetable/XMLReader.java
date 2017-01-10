@@ -10,9 +10,9 @@ import org.w3c.dom.Node;
 import java.io.File;
 import java.io.IOException;
 
-public class XMLReader { 
-	
-	public XMLReader(){
+public class XMLReader {
+
+	public XMLReader() {
 		readXML();
 	}
 
@@ -40,13 +40,13 @@ public class XMLReader {
 			e.printStackTrace();
 		}
 
-		doc.getDocumentElement().normalize();		
+		doc.getDocumentElement().normalize();
 
 		NodeList nList = doc.getElementsByTagName("column");
 
-		for(int i=0;i<nList.getLength();i++){
+		for (int i = 0; i < nList.getLength(); i++) {
 			Node n = nList.item(i);
-			Settings.addVariableToDisplay(n.getTextContent().trim());			
+			Settings.addVariableToDisplay(n.getTextContent().trim());
 		}
 
 	}

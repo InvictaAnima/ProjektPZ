@@ -8,7 +8,7 @@ public class Car {
 	private double maxSpeed;
 
 	public Car(int size, String mark, double maxSpeed) {
-		super();		
+		super();
 		this.size = size;
 		this.mark = mark;
 		this.maxSpeed = maxSpeed;

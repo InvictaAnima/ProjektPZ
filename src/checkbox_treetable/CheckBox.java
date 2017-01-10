@@ -12,22 +12,22 @@ public class CheckBox {
 	public CheckBox(int state) {
 		this.state = state;
 	}
-	
-	public void changeState(){
+
+	public void changeState() {
 		state++;
-		state%=3;
+		state %= 3;
 	}
 
 	public static ImageIcon getIcon(String name) {
 		switch (name) {
-			case "empty":
-				return emptyCheckBox;
-			case "half":
-				return halfCheckBox;
-			case "full":
-				return fullCheckBox;
-			default:
-				return null;
+		case "empty":
+			return emptyCheckBox;
+		case "half":
+			return halfCheckBox;
+		case "full":
+			return fullCheckBox;
+		default:
+			return null;
 		}
 	}
 

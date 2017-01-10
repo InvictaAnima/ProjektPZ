@@ -1,16 +1,21 @@
 package mvc;
 
-
 import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.DefaultCellEditor;
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.plaf.ComponentUI;
@@ -26,6 +31,7 @@ public class TreeTableUI extends ComponentUI {
 	private TreeTable treeTable;
 	private JScrollPane scrollPane;
 	private ChangeListener changeListener;
+	private MouseListener mouseAdapter;
 
 	public static ComponentUI createUI(JComponent c) {
 		return new TreeTableUI();
@@ -60,7 +66,39 @@ public class TreeTableUI extends ComponentUI {
 				treeTable.repaint();
 			}
 		};
+
+		mouseAdapter = new MouseAdapter() {
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+
+				if (SwingUtilities.isRightMouseButton(e)) {
+					int r = table.rowAtPoint(e.getPoint()); // wiersz gdzie zostalo klikniete
+					int c = table.columnAtPoint(e.getPoint()); // kolumna gdzie zostalo klikniete
+
+					JPopupMenu popup = createPopupMenu();
+					table.setCellSelectionEnabled(true);
+					popup.show(e.getComponent(), e.getX(), e.getY());
+
+				}
+			}
+		};
+
 		this.treeTable.getModel().addChangeListener(changeListener);
+	}
+
+	private JPopupMenu createPopupMenu() {
+		JPopupMenu popup = new JPopupMenu();
+
+		JMenuItem moveUpItem = new JMenuItem("Move up");
+		JMenuItem moveDownItem = new JMenuItem("Move down");
+		JMenuItem editItem = new JMenuItem("Edit");
+
+		popup.add(moveUpItem);
+		popup.add(moveDownItem);
+		popup.add(editItem);
+
+		return popup;
 	}
 
 	protected void uninstallComponents() {
@@ -77,21 +115,20 @@ public class TreeTableUI extends ComponentUI {
 	}
 
 	public void setData(Object[][] rowData, Object[] columnNames) {
-		table = new JTable(rowData, columnNames);	
+		table = new JTable(rowData, columnNames);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-		table.getColumnModel().getColumn(0).setPreferredWidth(0);	
+		table.getColumnModel().getColumn(0).setPreferredWidth(0);
 		table.getColumnModel().getColumn(0).setCellRenderer(new CheckBoxRenderer());
 		table.getColumnModel().getColumn(0).setCellEditor(new CheckBoxEditor(new JCheckBox()));
-		
-		
+
 		scrollPane.setViewportView(table);
+
+		table.addMouseListener(mouseAdapter);
 	}
 }
 
-///
-
 class CheckBoxRenderer extends JLabel implements TableCellRenderer {
-	
+
 	private static final long serialVersionUID = 1L;
 
 	public CheckBoxRenderer() {
@@ -102,12 +139,14 @@ class CheckBoxRenderer extends JLabel implements TableCellRenderer {
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
 			int row, int column) {
 		CheckBox c = (CheckBox) value;
-		if (c.getState() == 0) {
-			this.setIcon(CheckBox.getIcon("empty"));
-		} else if (c.getState() == 1) {
-			this.setIcon(CheckBox.getIcon("half"));
-		} else if (c.getState() == 2) {
-			this.setIcon(CheckBox.getIcon("full"));
+		if (c != null) {
+			if (c.getState() == 0) {
+				this.setIcon(CheckBox.getIcon("empty"));
+			} else if (c.getState() == 1) {
+				this.setIcon(CheckBox.getIcon("half"));
+			} else if (c.getState() == 2) {
+				this.setIcon(CheckBox.getIcon("full"));
+			}
 		}
 
 		return this;
@@ -118,20 +157,20 @@ class CheckBoxRenderer extends JLabel implements TableCellRenderer {
 class CheckBoxEditor extends DefaultCellEditor {
 
 	private static final long serialVersionUID = 1L;
-	private CheckBox c;	
-			
+	private CheckBox c;
+
 	public CheckBoxEditor(JCheckBox checkBox) {
 		super(checkBox);
-		checkBox.setOpaque(true);		
+		checkBox.setOpaque(true);
 	}
 
 	public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
-		c = (CheckBox) value;		
+		c = (CheckBox) value;
 		return this.getComponent();
 	}
 
 	public Object getCellEditorValue() {
-		c.changeState();		
+		c.changeState();
 		return c;
-	}	
+	}
 }
