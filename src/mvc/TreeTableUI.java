@@ -1,7 +1,7 @@
 package mvc;
 
+import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -22,6 +22,7 @@ import javax.swing.plaf.ComponentUI;
 import javax.swing.table.TableCellRenderer;
 
 import checkbox_treetable.CheckBox;
+import checkbox_treetable.MenuBar;
 
 public class TreeTableUI extends ComponentUI {
 
@@ -41,7 +42,7 @@ public class TreeTableUI extends ComponentUI {
 		this.treeTable = (TreeTable) c;
 		installComponents();
 		installListeners();
-		c.setLayout(new FlowLayout());
+		c.setLayout(new BorderLayout());
 	}
 
 	public void uninstallUI(JComponent c) {
@@ -53,7 +54,8 @@ public class TreeTableUI extends ComponentUI {
 
 	protected void installComponents() {
 		scrollPane = new JScrollPane();
-		this.treeTable.add(scrollPane);
+		this.treeTable.add(scrollPane,BorderLayout.CENTER);
+		this.treeTable.add(new MenuBar(),BorderLayout.NORTH);
 	}
 
 	protected void installListeners() {
