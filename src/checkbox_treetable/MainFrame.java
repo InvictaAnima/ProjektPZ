@@ -1,6 +1,6 @@
 package checkbox_treetable;
 
-import java.awt.BorderLayout;
+import java.awt.Dimension;
 
 import javax.swing.JFrame;
 
@@ -11,20 +11,14 @@ public class MainFrame extends JFrame {
 	Settings s = new Settings();
 	XMLReader x = new XMLReader();
 	
-	MenuBar menuBar = new MenuBar();
-	
 	TreeTable treeTable = new TreeTable();
 	
 	public MainFrame(){
 		super("ProjektPZ");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    treeTable.addData();
-	    
-	    this.add(menuBar,BorderLayout.NORTH);
-	    this.add(treeTable, BorderLayout.CENTER);
-	    
-	    
-	    this.setSize(300, 150);
+	    this.add(treeTable);
+	    this.setMinimumSize(new Dimension(470,470));
 	    this.pack();
 	    this.setVisible(true);
 	}

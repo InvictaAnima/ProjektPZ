@@ -1,8 +1,9 @@
 package mvc;
 
 import java.awt.Component;
-import java.awt.FlowLayout;
 import java.awt.Graphics;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -22,6 +23,7 @@ import javax.swing.plaf.ComponentUI;
 import javax.swing.table.TableCellRenderer;
 
 import checkbox_treetable.CheckBox;
+import checkbox_treetable.MenuBar;
 
 public class TreeTableUI extends ComponentUI {
 
@@ -30,6 +32,7 @@ public class TreeTableUI extends ComponentUI {
 	private JTable table;
 	private TreeTable treeTable;
 	private JScrollPane scrollPane;
+	private MenuBar menuBar;
 	private ChangeListener changeListener;
 	private MouseListener mouseAdapter;
 
@@ -39,9 +42,9 @@ public class TreeTableUI extends ComponentUI {
 
 	public void installUI(JComponent c) {
 		this.treeTable = (TreeTable) c;
+		c.setLayout(new GridBagLayout());
 		installComponents();
 		installListeners();
-		c.setLayout(new FlowLayout());
 	}
 
 	public void uninstallUI(JComponent c) {
@@ -52,8 +55,25 @@ public class TreeTableUI extends ComponentUI {
 	}
 
 	protected void installComponents() {
+		
+		GridBagConstraints gc = new GridBagConstraints();
+		gc.gridx = 0;
+		gc.gridy = 0;
+		gc.weightx = 0.0;
+		gc.weighty = 0.0;
+		
 		scrollPane = new JScrollPane();
-		this.treeTable.add(scrollPane);
+		menuBar = new MenuBar();
+		
+		//Pierwszy wiersz
+		gc.anchor = GridBagConstraints.FIRST_LINE_START;
+		this.treeTable.add(menuBar,gc);
+		gc.anchor = GridBagConstraints.FIRST_LINE_START;
+		gc.weighty = 1.0;
+		
+		//Nastepny wiersz
+		gc.gridy++;
+		this.treeTable.add(scrollPane,gc);
 	}
 
 	protected void installListeners() {
@@ -103,6 +123,7 @@ public class TreeTableUI extends ComponentUI {
 
 	protected void uninstallComponents() {
 		scrollPane = null;
+		menuBar = null;
 	}
 
 	protected void uninstallListeners() {
