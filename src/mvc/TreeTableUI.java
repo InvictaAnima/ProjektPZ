@@ -1,6 +1,7 @@
 package mvc;
 
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -129,6 +130,7 @@ public class TreeTableUI extends ComponentUI {
 	protected void uninstallListeners() {
 		this.treeTable.getModel().removeChangeListener(changeListener);
 		changeListener = null;
+		mouseAdapter = null;
 	}
 
 	public void paint(Graphics g, JComponent c) {
@@ -141,8 +143,13 @@ public class TreeTableUI extends ComponentUI {
 		table.getColumnModel().getColumn(0).setPreferredWidth(0);
 		table.getColumnModel().getColumn(0).setCellRenderer(new CheckBoxRenderer());
 		table.getColumnModel().getColumn(0).setCellEditor(new CheckBoxEditor(new JCheckBox()));
-
+		
+		
 		scrollPane.setViewportView(table);
+		Dimension dim = new Dimension();
+		dim.height = table.getPreferredSize().height;
+		dim.width = table.getPreferredSize().width + 20;
+		scrollPane.setPreferredSize(dim);
 
 		table.addMouseListener(mouseAdapter);
 	}

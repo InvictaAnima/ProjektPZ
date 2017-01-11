@@ -3,6 +3,7 @@ package checkbox_treetable;
 public class Car {
 	@ToDisplay
 	private int size;
+	@ToDisplay
 	private String mark;
 	@ToDisplay
 	private double maxSpeed;
