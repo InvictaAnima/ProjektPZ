@@ -3,7 +3,6 @@ package checkbox_treetable;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 
-
 public class Node<T> {
 	private T data;
 
@@ -12,15 +11,15 @@ public class Node<T> {
 	public Node(T data) {
 		this.data = data;
 		dataToDisplay = new ArrayList<>();
-		//loadValuesToDisplay();
+		// loadValuesToDisplay();
 	}
-	
-	public void  loadValuesToDisplayFromAnnotation() {
-		
+
+	public void loadValuesToDisplayFromAnnotation() {
+
 		Field[] fields = data.getClass().getDeclaredFields();
-		
-		for(Field field : fields) {
-			if(field.isAnnotationPresent(ToDisplay.class)) {
+
+		for (Field field : fields) {
+			if (field.isAnnotationPresent(ToDisplay.class)) {
 				field.setAccessible(true);
 				try {
 					Settings.addVariableToDisplay(field.getName());
@@ -35,7 +34,7 @@ public class Node<T> {
 	public void checkIfNodeContainsValuesToDisplay() {
 
 		for (String fieldName : Settings.variablesToDisplay) {
-			
+
 			Class<?> someClass = data.getClass();
 			Field someField = null;
 

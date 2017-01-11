@@ -3,15 +3,15 @@ package mvc;
 import javax.swing.JComponent;
 import javax.swing.UIManager;
 
-public class TreeTable extends JComponent{
-	
+public class TreeTable extends JComponent {
+
 	private TreeTableModel model;
-	
-	public TreeTable(){
+
+	public TreeTable() {
 		this.model = new TreeTableModel();
 		this.updateUI();
 	}
-	
+
 	public void updateUI() {
 		if (UIManager.get(getUIClassID()) != null) {
 			setUI((TreeTableUI) UIManager.getUI(this));
@@ -19,18 +19,18 @@ public class TreeTable extends JComponent{
 			setUI(new TreeTableUI());
 		}
 	}
-	
-	public void addData(){
+
+	public void addData() {
 		this.model.addData();
 	}
-	
-	public TreeTableModel getModel(){
+
+	public TreeTableModel getModel() {
 		return this.model;
-	}	
-	
+	}
+
 	public void setUI(TreeTableUI ui) {
 		super.setUI(ui);
-	}	
+	}
 
 	public TreeTableUI getUI() {
 		return (TreeTableUI) ui;
@@ -38,8 +38,6 @@ public class TreeTable extends JComponent{
 
 	public String getUIClassID() {
 		return TreeTableUI.UI_CLASS_ID;
-	}	
-	
-	
-	
+	}
+
 }
